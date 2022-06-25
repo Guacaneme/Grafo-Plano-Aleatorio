@@ -23,7 +23,20 @@ for (fila in 1:10){
     }
 }
 
-n_aristas_aleatorio <- sample(1:10,1)   # 294 ya que para un grafo plano |E| ≤ 3|V|-6
+n_aristas_aleatorio <- sample(1:294,1)   # 294 ya que para un grafo plano |E| ≤ 3|V|-6
+
+v_x <- vertices%%20+1
+v_y <- c()
+for (i in 1:10){
+    for (j in 1:20){
+        v_y <- c(v_y,i)
+    }
+}
+
+ar_x0 <- c()
+ar_y0 <- c()
+ar_x1 <- c()
+ar_y1 <- c()
 
 lado_aleatorio <- function(ver)(
     if (ver == 1 || ver == 20 || ver == 181 || ver == 200){
@@ -40,9 +53,6 @@ lado_aleatorio <- function(ver)(
         }
     }
 )
-
-
-#verificar_arista <- function(ver,lado)()
 
 for (n in 1:n_aristas_aleatorio){
     while (TRUE){
@@ -73,9 +83,11 @@ for (n in 1:n_aristas_aleatorio){
                 ady <- ady[!(ady == min(ady))]
             }
 
-            
             aristas[[ver]][lado] <- ady_org[lado]
             
+            ar_x0 <- c(ar_x0,v_x[ver])
+            ar_y0 <- c(ar_y0,v_y[ver])
+
             ady2 <- c()
             if (ady_org[lado] < 200){
                 ady2 <- c(ady2,ady_org[lado]+1)
@@ -102,20 +114,15 @@ for (n in 1:n_aristas_aleatorio){
             for (v in 1:length(ady_org2)){
                 if(ady_org2[v] == ver){
                     aristas[[ady_org[lado]]][v] <- ver
+                    ar_x1 <- c(ar_x1,v_x[ady_org[lado]])
+                    ar_y1 <- c(ar_y1,v_y[ady_org[lado]])
                 }
             }
-            
-            
+            break
         }
-            
-        
-        
-        break
     }
 }
 
-aristas
-
-#plot(0,0, col="white", xlim = c(-55,55), ylim = c(-55,55), main = "Grafo Aleatorio")
-#points(30*rnorm(200),30*rnorm(200), col="red")
-#segments(30*rnorm(200),30*rnorm(200),30*rnorm(200),30*rnorm(200))30*rnorm(200))
+plot(0,0, col="white", xlim = c(0,21), ylim = c(0,11), main = "Grafo Plano Aleatorio")
+points(v_x,v_y, col="red")
+segments(ar_x0,ar_y0,ar_x1,ar_y1)
